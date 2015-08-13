@@ -1,0 +1,26 @@
+# Group Users
+
+This group consists of two resources: /users/ and /users/{id}/.
+
+## Create users [/users/]
+
+This resource is for creating and listing users.
+
+### Create a user [POST]
+
+Creates a new user object.
+
++ Request (application/json)
+
+        {
+            "firstname": "John",
+            "lastname": "Dope"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "id": 1,
+            "firstname": "John",
+            "lastname": "Dope"
+        }
