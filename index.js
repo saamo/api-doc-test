@@ -1,68 +1,62 @@
 'use strict';
 
 var acquit = require('acquit');
-var gmatch = require('gmatch');
-var fs = require('fs');
+var curry = require('ramda').curry;
+var compose = require('ramda').compose;
+var loadExternalFiles = require('./lib/loadExternalFiles');
 
-module.exports = function(content) {
-  var groups = acquit.parse(content, cb);
+/* Formatting */
+
+var pad = curry(function(prefix, string) {
+  return prefix + string;
+});
+
+var trim = function(string) {
+  return string.trim();
+};
+
+var writeGroupHeader = pad('# Group ');
+var writeResourceHeader = pad('\n\n## ');
+var writeActionHeader = pad('\n\n### ');
+var writeParagraph = compose(pad('\n\n'), trim);
+var writeBullet = compose(pad('\n\n+ '), trim);
+
+var writeCode = function(code) {
+  var formattedCode = JSON.stringify(JSON.parse(code), null, 4)
+    .split('\n')
+    .map(pad('\n        '))
+    .join('');
+
+  return pad('\n', formattedCode);
+};
+
+/* Main module logic */
+
+var generateApiBlueprint = function(content) {
+  var groups = acquit.parse(content, loadExternalFiles);
   var doc = '';
 
-  // groups
-  for (var i in groups) {
-    doc += '# Group ' + groups[i].contents;
-    groups[i].comments.forEach(function(comment) {
-      doc += '\n\n' + comment.substring(1);
-    });
+  groups.map(function(group) {
+    doc += writeGroupHeader(group.contents);
+    doc += group.comments.map(writeParagraph);
 
-    // resources
-    var resources = groups[i].blocks;
-    for (var j in resources) {
-      doc += '\n\n## ' + resources[j].contents;
-      resources[j].comments.forEach(function(comment) {
-        doc += '\n\n' + comment.substring(1);
-      });
+    group.blocks.map(function(resource) {
+      doc += writeResourceHeader(resource.contents);
+      doc += resource.comments.map(writeParagraph);
 
-      // actions
-      var actions = resources[j].blocks;
-      for (var k in actions) {
-        doc += '\n\n### ' + actions[k].contents;
-        var test = actions[k].blocks[0];
-        actions[k].comments.forEach(function(comment) {
-          doc += '\n\n' + comment.substring(1);
+      resource.blocks.map(function(action) {
+        doc += writeActionHeader(action.contents);
+        doc += action.comments.map(writeParagraph);
+
+        action.blocks[0].files.map(function(file) {
+          doc += writeBullet(file.description);
+          doc += writeCode(file.contents);
         });
-
-        // requests and responses
-        for (var l in test.code) {
-          doc += formatPayload(test.code[l], '+' + test.comments[l]);
-        }
-      }
-    }
-  }
+      });
+    });
+  });
 
   return doc;
 };
 
-// find and load requests and responses
-var cb = function(block) {
-  if (block.code) {
-    var matches = gmatch(block.code, /(?:reqFile|resFile) = '(.*)'/g);
-    block.code = matches.map(function(file) {
-        return fs.readFileSync(file).toString();
-    });
-  }
-};
-
-var formatPayload = function(payload, title) {
-  payload = JSON.stringify(JSON.parse(payload), null, 4);
-  payload = indent('\n        ', payload);
-  return '\n\n' + title + '\n' + payload;
-}
-
-var indent = function(str, content) {
-  return content.split('\n')
-    .map(function(line) {
-      return str + line;
-    })
-    .join('');
-}
+module.exports = generateApiBlueprint;
