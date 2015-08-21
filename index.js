@@ -21,8 +21,15 @@ var writeActionHeader = pad('\n\n### ');
 var writeParagraph = compose(pad('\n\n'), trim);
 var writeBullet = compose(pad('\n\n+ '), trim);
 
+var standardizeCode = function(code) {
+  var parsedCode = JSON.parse(code);
+  var standardizedCode = JSON.stringify(parsedCode, null, 4);
+
+  return standardizedCode;
+};
+
 var writeCode = function(code) {
-  var formattedCode = JSON.stringify(JSON.parse(code), null, 4)
+  var formattedCode = standardizeCode(code)
     .split('\n')
     .map(pad('\n        '))
     .join('');
