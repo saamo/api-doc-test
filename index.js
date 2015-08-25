@@ -3,6 +3,8 @@
 var acquit = require('acquit');
 var curry = require('ramda').curry;
 var compose = require('ramda').compose;
+var fs = require('fs');
+var glob = require('glob-all');
 var loadExternalFiles = require('./lib/loadExternalFiles');
 
 /* Formatting */
@@ -13,6 +15,18 @@ var pad = curry(function(prefix, string) {
 
 var trim = function(string) {
   return string.trim();
+};
+
+var writeHeaderFormat = pad('FORMAT: ');
+var writeHeaderHost = pad('\nHOST: ');
+var writeHeaderTitle = compose(pad('\n\n# '), trim);
+var writeHeaderDescription = compose(pad('\n\n'), trim);
+
+var writeDocumentHeader = function(header) {
+  return writeHeaderFormat(header.format)
+    + writeHeaderHost(header.host)
+    + writeHeaderTitle(header.title)
+    + writeHeaderDescription(header.description);
 };
 
 var writeGroupHeader = pad('# Group ');
@@ -39,7 +53,7 @@ var writeCode = function(code) {
 
 /* Main module logic */
 
-var generateApiBlueprint = function(content) {
+var generateDoc = function(content) {
   var groups = acquit.parse(content, loadExternalFiles);
   var doc = '';
 
@@ -66,4 +80,16 @@ var generateApiBlueprint = function(content) {
   return doc;
 };
 
-module.exports = generateApiBlueprint;
+var generateDocs = function(header, srcDir, callback) {
+    var blueprint = writeDocumentHeader(header);
+    var files = glob.sync(srcDir);
+
+    blueprint += files.map(function(file) {
+      var content = fs.readFileSync(file).toString();
+      return '\n\n' + generateDoc(content);
+    });
+
+    callback(null, blueprint);
+};
+
+module.exports = generateDocs;

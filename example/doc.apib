@@ -1,26 +1,33 @@
-# Group Users
+FORMAT: 1A
+HOST: https://api.lobsterchat.com/
 
-This group consists of two resources: /users/ and /users/{id}/.
+# Lobster Chat API
 
-## Create users [/users/]
+This API provides access to the Lobster Chat messaging service.
 
-This resource is for creating and listing users.
+# Group Lobsters
 
-### Create a user [POST]
+This group consists of two resources: /lobsters/ and /lobsters/{id}/.
 
-Creates a new user object.
+## Lobsters [/lobsters/]
+
+This resource is for creating and listing lobsters.
+
+### Create Lobster [POST]
+
+Creates a new lobster.
 
 + Request (application/json)
 
         {
-            "firstname": "John",
-            "lastname": "Dope"
+            "name": "John",
+            "claws": 2
         }
 
 + Response 201 (application/json)
 
         {
             "id": 1,
-            "firstname": "John",
-            "lastname": "Dope"
+            "name": "John",
+            "claws": 2
         }
