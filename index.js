@@ -23,10 +23,10 @@ var writeHeaderTitle = compose(pad('\n\n# '), trim);
 var writeHeaderDescription = compose(pad('\n\n'), trim);
 
 var writeDocumentHeader = function(header) {
-  return writeHeaderFormat(header.format)
-    + writeHeaderHost(header.host)
-    + writeHeaderTitle(header.title)
-    + writeHeaderDescription(header.description);
+  return writeHeaderFormat(header.format) +
+    writeHeaderHost(header.host) +
+    writeHeaderTitle(header.title) +
+    writeHeaderDescription(header.description);
 };
 
 var writeGroupHeader = pad('# Group ');
