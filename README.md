@@ -1,5 +1,8 @@
 # API Blueprint from Jasmine/Mocha tests
 
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+
 Generate [API Blueprint](http://apiblueprint.org) from BDD-style ([Jasmine](http://jasmine.github.io)/[Mocha](http://mochajs.org)) test.
 
 ## Install
@@ -122,3 +125,8 @@ glob('test/**/*.test.js', null, function(err, files) {
 ## License
 
 MIT © [Samir Djellil](http://samirdjellil.com)
+
+[npm-image]: https://img.shields.io/npm/v/api-doc-test.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/api-doc-test
+[travis-image]: https://img.shields.io/travis/saamo/api-doc-test/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/saamo/api-doc-test
