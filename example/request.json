@@ -1,4 +1,4 @@
 {
-  "firstname": "John",
-  "lastname": "Dope"
+  "name": "John",
+  "claws": 2
 }

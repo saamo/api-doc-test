@@ -30,6 +30,7 @@
   "dependencies": {
     "acquit": "^0.1.0",
     "fs": "0.0.2",
+    "glob-all": "^3.0.1",
     "gmatch": "^1.0.2",
     "ramda": "^0.17.1"
   },

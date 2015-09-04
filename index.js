@@ -3,6 +3,8 @@
 var acquit = require('acquit');
 var curry = require('ramda').curry;
 var compose = require('ramda').compose;
+var fs = require('fs');
+var glob = require('glob-all');
 var loadExternalFiles = require('./lib/loadExternalFiles');
 
 /* Formatting */
@@ -39,7 +41,7 @@ var writeCode = function(code) {
 
 /* Main module logic */
 
-var generateApiBlueprint = function(content) {
+var generateDoc = function(content) {
   var groups = acquit.parse(content, loadExternalFiles);
   var doc = '';
 
@@ -66,4 +68,16 @@ var generateApiBlueprint = function(content) {
   return doc;
 };
 
-module.exports = generateApiBlueprint;
+var generateDocs = function(header, srcDir, callback) {
+    var blueprint = header;
+    var files = glob.sync(srcDir);
+
+    blueprint += files.map(function(file) {
+      var content = fs.readFileSync(file).toString();
+      return '\n\n' + generateDoc(content);
+    });
+
+    callback(null, blueprint);
+};
+
+module.exports = generateDocs;
