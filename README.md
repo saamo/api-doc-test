@@ -16,12 +16,10 @@ npm install --save api-doc-test
 ```js
 var generateDoc = require('api-doc-test');
 
-var header = {
-  format: '1A',
-  host: 'https://api.lobsterchat.com/',
-  title: 'Lobster Chat API',
-  description: 'This API provides access to the Lobster Chat messaging service.'
-};
+var header = 'FORMAT: 1A\n' +
+  'HOST: https://api.lobsterchat.com/\n\n' +
+  '# Lobster Chat API\n\n' +
+  'This API provides access to the Lobster Chat messaging service.';
 
 generateDoc(header, './**/*test.js', function(err, doc) {
   if (err) throw err;

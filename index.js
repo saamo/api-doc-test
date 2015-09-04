@@ -17,18 +17,6 @@ var trim = function(string) {
   return string.trim();
 };
 
-var writeHeaderFormat = pad('FORMAT: ');
-var writeHeaderHost = pad('\nHOST: ');
-var writeHeaderTitle = compose(pad('\n\n# '), trim);
-var writeHeaderDescription = compose(pad('\n\n'), trim);
-
-var writeDocumentHeader = function(header) {
-  return writeHeaderFormat(header.format) +
-    writeHeaderHost(header.host) +
-    writeHeaderTitle(header.title) +
-    writeHeaderDescription(header.description);
-};
-
 var writeGroupHeader = pad('# Group ');
 var writeResourceHeader = pad('\n\n## ');
 var writeActionHeader = pad('\n\n### ');
@@ -81,7 +69,7 @@ var generateDoc = function(content) {
 };
 
 var generateDocs = function(header, srcDir, callback) {
-    var blueprint = writeDocumentHeader(header);
+    var blueprint = header;
     var files = glob.sync(srcDir);
 
     blueprint += files.map(function(file) {
