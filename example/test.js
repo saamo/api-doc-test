@@ -10,10 +10,15 @@ describe('Lobsters', function() {
       // Request (application/json)
       // Response 201 (application/json)
       it('creates a new lobster', function(done) {
-        var reqFile = './example/request.json'; // optional
-        var resFile = './example/response.json'; // optional
+        var reqFile = './example/request.json';
+        var resFile = './example/response.json';
+      });
 
-        // your test
+      // Request (application/json)
+      // Response 400 (application/json)
+      it('returns 400 error when wrong or missing arguments', function(done) {
+        var reqFile = './example/wrongArg.request.json';
+        var resFile = './example/wrongArg.response.json';
       });
     });
   });

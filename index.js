@@ -57,9 +57,11 @@ var generateDoc = function(content) {
         doc += writeActionHeader(action.contents);
         doc += action.comments.map(writeParagraph);
 
-        action.blocks[0].files.map(function(file) {
-          doc += writeBullet(file.description);
-          doc += writeCode(file.contents);
+        action.blocks.map(function(reqres) {
+          reqres.files.map(function(file) {
+            doc += writeBullet(file.description);
+            doc += writeCode(file.contents);
+          });
         });
       });
     });
