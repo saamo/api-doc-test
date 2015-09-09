@@ -29,7 +29,7 @@ generateDoc(header, './**/*test.js', function(err, doc) {
 
 ### Test Structure
 
-BDD-style tests must follow given structure so API Blueprint can be generated properly.
+BDD-style tests should follow given structure so API Blueprint can be generated properly.
 
 ```js
 // This group consists of two resources: /lobsters/ and /lobsters/{id}/.
@@ -41,13 +41,16 @@ describe('Lobsters', function() {
     // Creates a new lobster.
     describe('Create Lobster [POST]', function() {
 
-      // Request (application/json)
-      // Response 201 (application/json)
+      // Request (application/json) example/request.json
+      // Response 201 (application/json) example/response.json
       it('creates a new lobster', function(done) {
-        var reqFile = __dirname + 'request.json'; // optional
-        var resFile = __dirname + 'response.json'; // optional
 
-        // your test
+      });
+
+      // Request (application/json) example/missingParameter.request.json
+      // Response 400 (application/json) example/missingParameter.response.json
+      it('returns 400 error if missing parameter', function(done) {
+
       });
     });
   });
@@ -91,6 +94,18 @@ Creates a new lobster.
             "id": 1,
             "name": "John",
             "claws": 2
+        }
+
++ Request (application/json)
+
+        {
+            "name": "John"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": "Some parameter is missing."
         }
 ```
 

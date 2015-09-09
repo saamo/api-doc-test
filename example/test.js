@@ -7,18 +7,16 @@ describe('Lobsters', function() {
     // Creates a new lobster.
     describe('Create Lobster [POST]', function() {
 
-      // Request (application/json)
-      // Response 201 (application/json)
+      // Request (application/json) example/request.json
+      // Response 201 (application/json) example/response.json
       it('creates a new lobster', function(done) {
-        var reqFile = './example/request.json';
-        var resFile = './example/response.json';
+
       });
 
-      // Request (application/json)
-      // Response 400 (application/json)
-      it('returns 400 error when wrong or missing arguments', function(done) {
-        var reqFile = './example/wrongArg.request.json';
-        var resFile = './example/wrongArg.response.json';
+      // Request (application/json) example/missingParameter.request.json
+      // Response 400 (application/json) example/missingParameter.response.json
+      it('returns 400 error if missing parameter', function(done) {
+
       });
     });
   });
