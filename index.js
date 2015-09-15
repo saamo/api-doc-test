@@ -23,20 +23,20 @@ var writeActionHeader = pad('\n\n### ');
 var writeParagraph = compose(pad('\n\n'), trim);
 var writeBullet = compose(pad('\n\n+ '), trim);
 
-var standardizeCode = function(code) {
-  var parsedCode = JSON.parse(code);
-  var standardizedCode = JSON.stringify(parsedCode, null, 4);
+var standardizePayload = function(payload) {
+  var parsedPayload = JSON.parse(payload);
+  var standardizedPayload = JSON.stringify(parsedPayload, null, 4);
 
-  return standardizedCode;
+  return standardizedPayload;
 };
 
-var writeCode = function(code) {
-  var formattedCode = standardizeCode(code)
+var writePayload = function(payload) {
+  var formattedPayload = standardizePayload(payload)
     .split('\n')
     .map(pad('\n        '))
     .join('');
 
-  return pad('\n', formattedCode);
+  return pad('\n', formattedPayload);
 };
 
 /* Main module logic */
@@ -60,7 +60,7 @@ var generateDoc = function(content) {
         action.blocks.map(function(reqres) {
           reqres.files.map(function(file) {
             doc += writeBullet(file.description);
-            doc += writeCode(file.contents);
+            doc += writePayload(file.contents);
           });
         });
       });
